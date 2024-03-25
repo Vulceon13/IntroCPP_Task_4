@@ -127,13 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoxOfDonuts.cpp" />
+    <ClCompile Include="Cat.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="IntroCPP_Task_4.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Lamp.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoxOfDonuts.h" />
+    <ClInclude Include="Cat.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Lamp.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="String.h" />
   </ItemGroup>
