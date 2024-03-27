@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 class String
 {
 public:
@@ -32,6 +34,11 @@ public:
 	String& ReadFromConsole();
 	String& WriteToConsole();
 
+	bool StartsWith(const char* prefix) const;
+	String SubString(size_t start) const;
+
+	String& Trim();
+
 public:
 	bool operator==(const String& _other);
 	bool operator!=(const String& _other);
@@ -40,6 +47,9 @@ public:
 
 	char& operator[](size_t _index);
 	const char& operator[](size_t _index) const;
+
+	friend std::ostream& operator<<(std::ostream& os, const String& str);
+	friend bool operator==(const String& str1, const String& str2);
 
 private:
 	//Put your internal data structures and members here

@@ -1,12 +1,12 @@
 #include "String.h"
-#include "iostream"
+#include <iostream>
 using namespace std;
 
 // Constructor Function
 String::String()
 {
     m_length = 0;
-    m_string = new char[1];
+    m_string = new char[static_cast<unsigned int>(m_length) + 1];
     m_string[0] = '\0';
 }
 
@@ -14,16 +14,16 @@ String::String()
 String::String(const char* _str)
 {
     m_length = strlen(_str);
-    m_string = new char[m_length + 1];
-    strncpy_s(m_string, m_length + 1, _str, _TRUNCATE);
+    m_string = new char[static_cast<unsigned int>(m_length) + 1];
+    strncpy_s(m_string, static_cast<unsigned int>(m_length) + 1, _str, _TRUNCATE);
 }
 
 // Copy Constructor Funcotion 
 String::String(const String& _other)
 {
     m_length = _other.m_length;
-    m_string = new char[m_length + 1];
-    strncpy_s(m_string, m_length, _other.m_string, _TRUNCATE);
+    m_string = new char[static_cast<unsigned int>(m_length) + 1];
+    strncpy_s(m_string, static_cast<unsigned int>(m_length) + 1, _other.m_string, _TRUNCATE);
 }
 
 // Destructor Function
@@ -188,11 +188,42 @@ String& String::WriteToConsole()
 }
 
 
-bool String::operator==(const String& _other)
+// Checks if string starts with a specified prefix
+bool String::StartsWith(const char* prefix) const
 {
-    return EqualTo(_other);
+    size_t prefixLength = strlen(prefix);
+    if (prefixLength > m_length)
+        return false;
+    return strncmp(m_string, prefix, prefixLength) == 0;
 }
 
+// Get a subString of a string  starting from a specified index
+String String::SubString(size_t start) const 
+{
+    if (start >= m_length)
+        return String(); 
+
+    return String(m_string + start); 
+}
+
+// Trim leading and trailing whitespaces from the string
+String& String::Trim() {
+    size_t start = 0;
+    while (start < m_length && std::isspace(m_string[start])) {
+        start++;
+    }
+
+    size_t end = m_length - 1;
+    while (end > start && std::isspace(m_string[end])) {
+        end--;
+    }
+
+    m_length = end - start + 1;
+    memmove(m_string, m_string + start, m_length);
+    m_string[m_length] = '\0';
+
+    return *this;
+}
 
 bool String::operator!=(const String& _other)
 {
@@ -224,3 +255,14 @@ const char& String::operator[](size_t _index) const
     return CharacterAt(_index);
 }
 
+std::ostream& operator<<(std::ostream& os, const String& str) 
+{
+    os << str.CStr();  // This defines the << operator for String class
+    return os;
+}
+
+
+bool operator==(const String& str1, const String& str2) 
+{
+    return str1.EqualTo(str2); // This defines the == operator for String class 
+}
